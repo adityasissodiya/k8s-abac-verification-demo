@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: abac-webhook
+  namespace: authzforce
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: abac-webhook
+  template:
+    metadata:
+      labels:
+        app: abac-webhook
+    spec:
+      serviceAccountName: abac-webhook-sa
+      containers:
+      - name: webhook
+        image: abac-webhook:latest
+        ports:
+        - containerPort: 8443
+        volumeMounts:
+        - name: tls
+          mountPath: /etc/webhook
+      volumes:
+      - name: tls
+        secret:
+          secretName: abac-webhook-tls

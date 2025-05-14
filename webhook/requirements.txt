@@ -1,0 +1,4 @@
+flask
+flask-json
+kubernetes==24.0.0
+requests

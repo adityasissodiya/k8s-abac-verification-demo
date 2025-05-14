@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Request xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17"
+         CombinedDecision="false"
+         ReturnPolicyIdList="false">
+
+  <Attributes Category="urn:oasis:names:tc:xacml:3.0:attribute-category:action">
+    <Attribute AttributeId="urn:k8s:action:operation" IncludeInResult="false">
+      <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">
+        create
+      </AttributeValue>
+    </Attribute>
+  </Attributes>
+
+  <Attributes Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource">
+    <Attribute AttributeId="urn:k8s:resource:kind" IncludeInResult="false">
+      <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">
+        Pod
+      </AttributeValue>
+    </Attribute>
+    <Attribute AttributeId="urn:k8s:resource:imageRegistry" IncludeInResult="false">
+      <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">
+        evil.com
+      </AttributeValue>
+    </Attribute>
+  </Attributes>
+
+</Request>

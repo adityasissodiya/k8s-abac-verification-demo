@@ -1,0 +1,9 @@
+{
+    "Request": {
+      "AccessSubject": { "attributes": [] },
+      "Action":        { "attributes": [] },
+      "Resource":      { "attributes": [] },
+      "Environment":   { "attributes": [] }
+    }
+  }
+  

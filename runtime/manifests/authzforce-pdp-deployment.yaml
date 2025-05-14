@@ -20,20 +20,21 @@ spec:
         - containerPort: 8080
         volumeMounts:
         - name: config-volume
-          mountPath: /conf            # application.yml lives here
+          mountPath: /conf/application.yml   # mount as a file
+          subPath: application.yml
         - name: policies-volume
-          mountPath: /policies        # XACML policy XMLs live here
+          mountPath: /policies
       - name: tls-proxy
         image: nginx:alpine
         ports:
         - containerPort: 443
         volumeMounts:
         - name: tls-certs
-          mountPath: /etc/nginx/tls   # server.crt & server.key appear here
+          mountPath: /etc/nginx/tls
         command: ["/bin/sh","-c"]
         args:
         - |
-          cat <<'EOCONF' > /etc/nginx/nginx.conf
+          cat >/etc/nginx/nginx.conf <<EOF
           events {}
           http {
             server {
@@ -45,25 +46,25 @@ spec:
               }
             }
           }
-          exec nginx -g 'daemon off;';
-          EOCONF
+          EOF
+          nginx -g 'daemon off;';
 
       volumes:
       - name: tls-certs
         secret:
           secretName: authzforce-pdp-tls
           items:
-            - key: tls.crt
-              path: server.crt
-            - key: tls.key
-              path: server.key
+          - key: tls.crt
+            path: server.crt
+          - key: tls.key
+            path: server.key
 
       - name: config-volume
         configMap:
           name: authzforce-config
           items:
-            - key: application.yml
-              path: application.yml
+          - key: application.yml
+            path: application.yml
 
       - name: policies-volume
         configMap:

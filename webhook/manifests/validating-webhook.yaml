@@ -1,0 +1,21 @@
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: abac-validation-webhook
+webhooks:
+  - name: abac.k8s.local
+    clientConfig:
+      service:
+        name: abac-webhook-service
+        namespace: authzforce
+        path: "/validate"
+        port: 443
+      caBundle: <base64-of-ca.crt>
+    rules:
+      - operations: ["CREATE"]
+        apiGroups: [""]
+        apiVersions: ["v1"]
+        resources: ["pods"]
+    admissionReviewVersions: ["v1"]
+    sideEffects: None
+    failurePolicy: Fail

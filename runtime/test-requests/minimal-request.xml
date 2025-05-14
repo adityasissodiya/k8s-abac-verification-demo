@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Request xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17"
+         CombinedDecision="false"
+         ReturnPolicyIdList="false">
+  <!-- no Attributes means “permit by default” under our policies -->
+</Request>

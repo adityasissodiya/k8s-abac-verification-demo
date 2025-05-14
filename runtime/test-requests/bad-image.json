@@ -1,0 +1,22 @@
+{
+  "Request": {
+    "AccessSubject": { "attributes": [] },
+    "Action": [
+      {
+        "AttributeId": "urn:k8s:action:operation",
+        "Value": "create"
+      }
+    ],
+    "Resource": [
+      {
+        "AttributeId": "urn:k8s:resource:kind",
+        "Value": "Pod"
+      },
+      {
+        "AttributeId": "urn:k8s:resource:imageRegistry",
+        "Value": "evil.com"
+      }
+    ],
+    "Environment": { "attributes": [] }
+  }
+}
