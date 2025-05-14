@@ -1,0 +1,6 @@
+name: "Image Registry Bypass"
+case: registry
+allowed_registries:
+  - myregistry.com
+test_registry: myregistry.com.attacker.com
+prefix_bad: true

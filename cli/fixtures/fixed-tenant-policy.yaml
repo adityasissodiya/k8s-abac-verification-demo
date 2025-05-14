@@ -1,0 +1,4 @@
+name: "Fixed Tenant Isolation"
+case: tenant
+subject_tenant: "teamA"
+resource_tenant: "teamA"

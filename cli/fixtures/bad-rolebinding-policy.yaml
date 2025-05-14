@@ -1,0 +1,6 @@
+name: "Wildcard ClusterRole Binding Bypass"
+case: wildcard
+resource_kind: "ClusterRole"
+action: "create"
+subject_is_admin: false
+wildcard_present: true

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Policy PolicyId="K8sTenantIsolationPolicy"
+        RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:deny-overrides"
+        xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17">
+
+  <!-- Applies to all CREATE/UPDATE operations on namespaced resources -->
+  <Target/>
+
+  <Rule RuleId="DenyCrossTenant" Effect="Deny">
+    <Condition>
+      <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:not">
+        <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+          <AttributeDesignator
+               Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
+               AttributeId="urn:k8s:resource:namespace"
+               DataType="http://www.w3.org/2001/XMLSchema#string"/>
+          <AttributeDesignator
+               Category="urn:oasis:names:tc:xacml:3.0:attribute-category:subject"
+               AttributeId="urn:k8s:subject:namespace"
+               DataType="http://www.w3.org/2001/XMLSchema#string"/>
+        </Apply>
+      </Apply>
+    </Condition>
+  </Rule>
+
+  <Rule RuleId="PermitAllOthers" Effect="Permit"/>
+</Policy>

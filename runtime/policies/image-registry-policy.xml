@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Policy PolicyId="K8sImageRegistryPolicy"
+        RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:deny-overrides"
+        xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17">
+
+  <!-- Deny if Pod.imageRegistry not exactly myregistry.com -->
+  <Target>
+    <!-- applies only to Pod creations -->
+    <AnyOf>
+      <AllOf>
+        <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+          <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Pod</AttributeValue>
+          <AttributeDesignator
+               Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
+               AttributeId="urn:k8s:resource:kind"
+               DataType="http://www.w3.org/2001/XMLSchema#string"/>
+        </Match>
+      </AllOf>
+    </AnyOf>
+  </Target>
+
+  <Rule RuleId="DenyUnapprovedImage" Effect="Deny">
+    <Condition>
+      <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:not">
+        <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+          <AttributeDesignator
+               Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
+               AttributeId="urn:k8s:resource:imageRegistry"
+               DataType="http://www.w3.org/2001/XMLSchema#string"/>
+          <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">myregistry.com</AttributeValue>
+        </Apply>
+      </Apply>
+    </Condition>
+  </Rule>
+
+  <Rule RuleId="PermitAllOthers" Effect="Permit"/>
+</Policy>

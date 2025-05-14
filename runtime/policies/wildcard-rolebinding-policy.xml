@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Policy PolicyId="K8sWildcardRoleBindingPolicy"
+        RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:deny-overrides"
+        xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17">
+
+  <!-- Target only RoleBinding or ClusterRoleBinding creations -->
+  <Target>
+    <AnyOf>
+      <AllOf>
+        <Match FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+          <AttributeDesignator
+               Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
+               AttributeId="urn:k8s:resource:kind"
+               DataType="http://www.w3.org/2001/XMLSchema#string"/>
+          <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">ClusterRoleBinding</AttributeValue>
+        </Match>
+      </AllOf>
+      <AllOf>
+        <Match FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+          <AttributeDesignator
+               Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
+               AttributeId="urn:k8s:resource:kind"
+               DataType="http://www.w3.org/2001/XMLSchema#string"/>
+          <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">RoleBinding</AttributeValue>
+        </Match>
+      </AllOf>
+    </AnyOf>
+  </Target>
+
+  <Rule RuleId="DenyWildcardToNonAdmin" Effect="Deny">
+    <Condition>
+      <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:and">
+        <!-- roleRefName == cluster-admin -->
+        <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+          <AttributeDesignator
+               Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
+               AttributeId="urn:k8s:resource:roleRefName"
+               DataType="http://www.w3.org/2001/XMLSchema#string"/>
+          <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">cluster-admin</AttributeValue>
+        </Apply>
+        <!-- subject.groups does *not* include system:masters -->
+        <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:not">
+          <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-is-in">
+            <AttributeDesignator
+                 Category="urn:oasis:names:tc:xacml:3.0:attribute-category:subject"
+                 AttributeId="urn:k8s:subject:groups"
+                 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+            <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">system:masters</AttributeValue>
+          </Apply>
+        </Apply>
+      </Apply>
+    </Condition>
+  </Rule>
+
+  <Rule RuleId="PermitAllOthers" Effect="Permit"/>
+</Policy>

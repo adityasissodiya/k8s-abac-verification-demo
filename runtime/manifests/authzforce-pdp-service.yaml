@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: authzforce-pdp-service
+  namespace: authzforce
+spec:
+  selector:
+    app: authzforce-pdp
+  ports:
+    - name: https
+      port: 443
+      targetPort: 443
+  # we’ll talk to it on https://authzforce-pdp-service.authzforce.svc:443

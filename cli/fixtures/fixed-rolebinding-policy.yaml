@@ -1,0 +1,6 @@
+name: "Fixed Wildcard ClusterRole Binding"
+case: wildcard
+resource_kind: "ClusterRole"
+action: "create"
+subject_is_admin: false
+wildcard_present: false

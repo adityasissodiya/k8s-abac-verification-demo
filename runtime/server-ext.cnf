@@ -1,0 +1,7 @@
+authorityKeyIdentifier=keyid,issuer
+basicConstraints=CA:FALSE
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1 = authzforce-pdp-service
+DNS.2 = authzforce-pdp-service.authzforce.svc

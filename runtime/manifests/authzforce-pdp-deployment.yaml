@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: authzforce-pdp
+  namespace: authzforce
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: authzforce-pdp
+  template:
+    metadata:
+      labels:
+        app: authzforce-pdp
+    spec:
+      containers:
+      - name: pdp
+        image: authzforce/restful-pdp:latest
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - name: config-volume
+          mountPath: /conf            # application.yml lives here
+        - name: policies-volume
+          mountPath: /policies        # XACML policy XMLs live here
+      - name: tls-proxy
+        image: nginx:alpine
+        ports:
+        - containerPort: 443
+        volumeMounts:
+        - name: tls-certs
+          mountPath: /etc/nginx/tls   # server.crt & server.key appear here
+        command: ["/bin/sh","-c"]
+        args:
+        - |
+          cat <<'EOCONF' > /etc/nginx/nginx.conf
+          events {}
+          http {
+            server {
+              listen 443 ssl;
+              ssl_certificate /etc/nginx/tls/server.crt;
+              ssl_certificate_key /etc/nginx/tls/server.key;
+              location / {
+                proxy_pass http://127.0.0.1:8080;
+              }
+            }
+          }
+          exec nginx -g 'daemon off;';
+          EOCONF
+
+      volumes:
+      - name: tls-certs
+        secret:
+          secretName: authzforce-pdp-tls
+          items:
+            - key: tls.crt
+              path: server.crt
+            - key: tls.key
+              path: server.key
+
+      - name: config-volume
+        configMap:
+          name: authzforce-config
+          items:
+            - key: application.yml
+              path: application.yml
+
+      - name: policies-volume
+        configMap:
+          name: authzforce-policies

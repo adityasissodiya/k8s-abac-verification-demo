@@ -1,0 +1,4 @@
+name: "Cross-Tenant Access Bypass"
+case: tenant
+subject_tenant: "teamA"
+resource_tenant: "teamB"

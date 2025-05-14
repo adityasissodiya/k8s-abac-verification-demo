@@ -1,0 +1,17 @@
+# runtime/manifests/application.yml
+server:
+  port: 8080
+
+# Configure the PDP repository to load our policies from /policies
+pdp:
+  repositories:
+    default:
+      policiesLocation:
+        type: file
+        path: /policies
+      policySets:
+        - name: K8sPolicySet
+          policies:
+            - image-registry-policy.xml
+            - wildcard-rolebinding-policy.xml
+            - tenant-isolation-policy.xml
