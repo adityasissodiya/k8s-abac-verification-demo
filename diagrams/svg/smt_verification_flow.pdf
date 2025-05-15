@@ -1,0 +1,17 @@
+digraph smt_flow {
+	node [fontname=Helvetica shape=rectangle style=rounded]
+	edge [fontname=Helvetica]
+	parse [label="Parse policy YAML files
+(+ invariants)"]
+	encode [label="Compile policies to SMT formulas"]
+	solve [label="Query SMT solver (e.g., Z3)"]
+	result [label="Solver result: SAT/UNSAT
+(+ model if SAT)"]
+	explain [label="Interpret counterexample
+(if model found)"]
+	parse -> encode
+	encode -> solve
+	solve -> result
+	result -> explain
+	rankdir=TB
+}

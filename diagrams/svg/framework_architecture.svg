@@ -1,0 +1,33 @@
+digraph framework_arch {
+	node [fontname=Helvetica]
+	edge [fontname=Helvetica]
+	subgraph cluster_k8s {
+		label="Kubernetes Cluster" style=dashed
+		API [label="API Server
+(RBAC Authorizer)"]
+		Adapter [label="ABAC Adapter
+(Webhook)"]
+		rank=same
+	}
+	PDP [label="AuthzForce PDP
+(XACML Policy Decision Point)"]
+	SMT [label="SMT Solver
+(Verification Engine)"]
+	User [label="User/Admin
+(kubectl client)" shape=none]
+	RBACpol [label="RBAC Policy (YAML)" shape=note]
+	ABACpol [label="ABAC Policy (XACML/ALFA)" shape=note]
+	Invariant [label="Security invariants" shape=note]
+	User -> API [label="API request"]
+	API -> Adapter [label="AuthZ webhook call"]
+	Adapter -> PDP [label="XACML query"]
+	PDP -> Adapter [label="Permit/Deny decision"]
+	Adapter -> API [label="AuthZ response"]
+	API -> User [label="Response allowed/denied"]
+	RBACpol -> API [style=dashed]
+	ABACpol -> PDP [style=dashed]
+	RBACpol -> SMT [style=dashed]
+	ABACpol -> SMT [style=dashed]
+	Invariant -> SMT [style=dashed]
+	rankdir=LR
+}

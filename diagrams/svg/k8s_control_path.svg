@@ -1,0 +1,17 @@
+digraph control_path {
+	node [fontname=Helvetica]
+	edge [fontname=Helvetica]
+	start [label="User Request" shape=oval]
+	rbac [label="RBAC Authorizer
+permits request?" shape=diamond]
+	abac [label="ABAC Webhook (PDP)
+permits request?" shape=diamond]
+	allowed [label="Request Allowed" shape=oval]
+	denied [label="Request Denied" shape=oval]
+	start -> rbac
+	rbac -> abac [label=Permit]
+	rbac -> denied [label=Deny]
+	abac -> allowed [label=Permit]
+	abac -> denied [label=Deny]
+	rankdir=TB
+}

@@ -1,0 +1,20 @@
+digraph counterexample {
+	node [fontname=Helvetica]
+	edge [fontname=Helvetica]
+	inv [label="Security invariant φ:
+image registry must equal 'myregistry.com'"]
+	pol [label="Misconfigured policy π:
+allows registry prefix 'myregistry.com*'"]
+	solver [label="SMT Solver (Z3)
+checks φ vs. π"]
+	cex [label="Counterexample model:
+registry = 'myregistry.com.attacker.com'
+(violates φ, allowed by π)"]
+	misconf [label="Identified misconfiguration:
+prefix-match logic in policy is too broad"]
+	inv -> solver
+	pol -> solver
+	solver -> cex [label="finds violation"]
+	cex -> misconf [label="highlights flaw in policy"]
+	rankdir=TB
+}

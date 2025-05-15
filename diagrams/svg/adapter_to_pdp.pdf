@@ -1,0 +1,17 @@
+digraph adapter_pdp {
+	node [fontname=Helvetica]
+	edge [fontname=Helvetica]
+	AR [label="{{AdmissionReview}|{<user> user: Alice | groups: [dev, ops] | <verb> verb: create | <res> resource: Deployment | <ns> namespace: prod}}" shape=record]
+	XACML [label="{{XACML Request}|{<subj> Subject: user=Alice, groups=[dev,ops] | <resAttr> Resource: type=Deployment, ns=prod | <act> Action: verb=create}}" shape=record]
+	PDP [label="AuthzForce PDP
+(XACML Evaluation)"]
+	Resp [label="AdmissionReview Response
+(Allowed or Denied)"]
+	AR:user -> XACML:subj [style=dotted]
+	AR:res -> XACML:resAttr [style=dotted]
+	AR:ns -> XACML:resAttr [style=dotted]
+	AR:verb -> XACML:act [style=dotted]
+	XACML -> PDP [label="XACML request"]
+	PDP -> Resp [label="Permit/Deny decision"]
+	rankdir=LR
+}

@@ -92,7 +92,7 @@ Next, we need to load our ABAC security policies into the AuthzForce PDP. These 
 
 AuthzForce provides a REST API to manage policies and PDP configurations. For simplicity, this demo uses a default single PDP configuration and we load our policies into it.
 
-**Upload the XACML Policies:** If the AuthzForce deployment is configured with an empty policy set, we will add our policies via the REST API. You can do this using a provided script or manually with `curl`. A script `scripts/load_policies.py` is available in the repo, run:
+**Upload the XACML Policies:** If the AuthzForce deployment is configured with an empty policy set, we will add our policies via the REST API. You can do this using a provided script `scripts/load_policies.py`:
 
 ```bash
 python3 scripts/load_policies.py
