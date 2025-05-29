@@ -1,0 +1,25 @@
+digraph RBAC_ABAC_diagram {
+	graph [rankdir=LR]
+	node [fontname=Helvetica]
+	edge [fontname=Helvetica fontsize=10]
+	user [label=<<FONT><I>u</I> (User)</FONT>> shape=ellipse]
+	subgraph cluster_RBAC {
+		label="RBAC Model" labelloc=t style=dashed
+		role [label=<<FONT><I>r</I> (Role)</FONT>> shape=ellipse]
+		perm [label=<<FONT><I>p</I> (Permission)</FONT>> shape=ellipse]
+		Perms_RBAC [label=<<I>Perms</I><SUB>RBAC</SUB><I>(u) = p | ∃ r: (u,r)∈B ∧ (r,p)∈A</I>> shape=rectangle]
+		role -> perm [label=A]
+	}
+	subgraph cluster_ABAC {
+		label="ABAC Model" labelloc=t style=dashed
+		ABACAllow [label=<<I>π (ABAC decision logic)</I>> shape=rectangle]
+		phi [label=<<FONT><I>φ</I>(u, res, a)</FONT>> shape=ellipse]
+		Perms_ABAC [label=<<I>Perms</I><SUB>ABAC</SUB><I>(u) = (res, a) | ABACAllow(u,res,a)=Permit</I>> shape=rectangle]
+		phi -> ABACAllow [label=<<FONT>Deny if ¬ </FONT><I>φ</I><FONT> (excluded in </FONT><I>π</I><SUB>bad</SUB><FONT>)</FONT>> style=dashed]
+	}
+	user -> role [label=B]
+	user -> ABACAllow [label="User attributes (roles)"]
+	Delta [label=<<I>Δ(u) = Perms</I><SUB>RBAC</SUB><I>(u) ∖ Perms</I><SUB>ABAC</SUB><I>(u)</I>> shape=rectangle]
+	Perms_RBAC -> Delta [label="RBAC-only privileges"]
+	Perms_ABAC -> Delta [label="Revoked by ABAC" arrowhead=tee style=dashed]
+}
