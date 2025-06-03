@@ -18,6 +18,8 @@ The prototype consists of two main parts: an **offline formal verification tool*
 
 * **Policy Verification CLI (Python + Z3)** – Located in the `cli/` directory. This is a Python command-line tool (see `cli/verify_policies.py`) that uses the Z3 SMT solver to analyze Kubernetes RBAC policies and additional ABAC rules. It models the cluster’s roles, role bindings, and ABAC conditions as logical formulas and checks for any policy violations (counterexamples) to the desired security properties. The CLI uses example policy files in `cli/fixtures/` (described below) to simulate misconfigurations and their fixes.
 
+* **Robust error handling** – The CLI rejects any malformed or incomplete policy file with a clear error message. If a policy is well-formed but fails verification, it is flagged as invalid, with a counterexample provided to illustrate the violation.
+
 * **Misconfiguration Case Studies (RBAC/ABAC Examples)** – Under `cli/fixtures/`, three pairs of YAML files encode the case studies:
 
   * *Image Registry Bypass:* `bad-registry-policy.yaml` defines an insecure admission policy (e.g., a regex that could be bypassed) and RBAC context; `fixed-registry-policy.yaml` provides the corrected policy. This case simulates a supply-chain security rule that is too lax.

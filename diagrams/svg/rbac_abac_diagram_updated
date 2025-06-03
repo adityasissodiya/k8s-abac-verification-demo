@@ -1,0 +1,31 @@
+digraph RBAC_ABAC_diagram {
+	graph [nodesep=0.6 rankdir=LR ranksep=0.8]
+	node [fontname=Helvetica]
+	edge [fontname=Helvetica fontsize=10]
+	user [label=<<FONT><I>u</I> (User)</FONT>> fillcolor=lightgrey shape=ellipse style=filled]
+	subgraph cluster_RBAC {
+		label="RBAC Model" labelloc=t style=dashed
+		graph [fillcolor=azure1 style=filled]
+		role [label=<<FONT><I>r</I> (Role)</FONT>> fillcolor=lightblue shape=ellipse style=filled]
+		perm [label=<<FONT><I>p</I> (Permission)</FONT>> fillcolor=lightblue shape=ellipse style=filled]
+		Perms_RBAC [label=<<I>Perms</I><SUB>RBAC</SUB><I>(u) = p | ∃ r: (u,r)∈B ∧ (r,p)∈A</I>> fillcolor=lightblue shape=rectangle style=filled]
+		role -> perm [label=A]
+	}
+	subgraph cluster_ABAC {
+		label="ABAC Model + Negative Testing" labelloc=t style=dashed
+		graph [fillcolor=honeydew style=filled]
+		Verify [label=<<FONT><I>Verify</I>(π)<BR/>(total function)</FONT>> fillcolor=palegoldenrod shape=hexagon style=filled]
+		ABACAllow [label=<<I>π (ABAC decision logic)</I>> fillcolor=lightgreen shape=rectangle style=filled]
+		phi [label=<<FONT><I>φ</I>(u, res, a)</FONT>> fillcolor=lightgreen shape=ellipse style=filled]
+		Perms_ABAC [label=<<I>Perms</I><SUB>ABAC</SUB><I>(u) = (res, a) | ABACAllow(u,res,a)=Permit</I>> fillcolor=lightgreen shape=rectangle style=filled]
+		phi -> ABACAllow [label=<<FONT>Deny if ¬ </FONT><I>φ</I><FONT> (excluded in </FONT><I>π</I><SUB>bad</SUB><FONT>)</FONT>> style=dashed]
+		Verify -> ABACAllow [label="only if π well-formed"]
+		phi -> Verify [label="invariants ⇒ "]
+	}
+	user -> role [label=B]
+	user -> Verify [label="User attributes → Verify"]
+	Delta [label=<<I>Δ(u) = Perms</I><SUB>RBAC</SUB><I>(u) ∖ Perms</I><SUB>ABAC</SUB><I>(u)</I>> fillcolor=moccasin shape=rectangle style=filled]
+	Perms_RBAC -> Delta [label="RBAC-only privileges" color=blue]
+	Perms_ABAC -> Delta [label="Revoked by ABAC" arrowhead=tee color=darkgreen style=dashed]
+	rankdir=LR
+}

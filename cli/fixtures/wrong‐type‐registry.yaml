@@ -1,0 +1,6 @@
+# The field "allowed_registries" should be a list, but here it's a string
+name: "Wrong Type Registry"
+case: registry
+allowed_registries: "myregistry.com"   # should be ["myregistry.com"]
+test_registry: "myregistry.com.attacker.com"
+prefix_bad: true

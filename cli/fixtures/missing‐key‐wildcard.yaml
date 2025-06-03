@@ -1,0 +1,7 @@
+# Intentionally omit the "wildcard_present" field
+name: "Missing Key Wildcard"
+case: wildcard
+resource_kind: "ClusterRole"
+action: "create"
+subject_is_admin: false
+# wildcard_present: true    ← missing on purpose

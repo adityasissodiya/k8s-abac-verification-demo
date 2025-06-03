@@ -1,0 +1,4 @@
+name: "Syntax Error"
+case: tenant
+subject_tenant "teamA"   # missing colon after key
+resource_tenant: "teamB"

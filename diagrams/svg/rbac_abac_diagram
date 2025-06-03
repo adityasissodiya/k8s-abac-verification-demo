@@ -1,5 +1,5 @@
 digraph RBAC_ABAC_diagram {
-	graph [rankdir=LR]
+	graph [nodesep=0.6 rankdir=LR ranksep=0.8]
 	node [fontname=Helvetica]
 	edge [fontname=Helvetica fontsize=10]
 	user [label=<<FONT><I>u</I> (User)</FONT>> shape=ellipse]

@@ -1,0 +1,26 @@
+digraph smt_negative_testing {
+	graph [rankdir=LR]
+	node [fontname=Helvetica]
+	edge [fontname=Helvetica]
+	SMT_main [label="SMT Solver
+(Verification Engine)" fillcolor=lightgoldenrod1 shape=ellipse style=filled]
+	subgraph cluster_smt_detail {
+		label="SMT Solver Internals" labelloc=t style=dashed
+		rankdir=TB
+		Parse [label="Parse(π) → SyntaxTree" shape=box]
+		Model [label="Model(SyntaxTree) → Formula" shape=box]
+		SATCheck [label="SATCheck(Formula)" shape=box]
+		Valid [label=Valid fillcolor=palegreen shape=oval style=filled]
+		Invalid [label=Invalid fillcolor=lightcoral shape=oval style=filled]
+		Rejected [label=Rejected fillcolor=lightgrey shape=oval style=filled]
+		Error [label=Error fillcolor=khaki shape=oval style=filled]
+		Parse -> Model [label="if Parse ↓"]
+		Model -> SATCheck [label="if Model ↓"]
+		SATCheck -> Valid [label="if formula ⊨ unsat"]
+		SATCheck -> Invalid [label="if formula ⊨ sat"]
+		Parse -> Rejected [label="if Parse ↑" style=dotted]
+		Model -> Rejected [label="if Model ↑" style=dotted]
+		SATCheck -> Error [label="if check ↑ or unknown" style=dotted]
+	}
+	SMT_main -> Parse [label=detail style=bold]
+}

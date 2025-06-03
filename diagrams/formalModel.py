@@ -1,7 +1,7 @@
 from graphviz import Digraph
 
 dot = Digraph(name="RBAC_ABAC_diagram", format="png")
-dot.attr('graph', rankdir='LR')                        # Left-to-right layout
+dot.attr('graph', rankdir='LR', nodesep='0.6', ranksep='0.8')                        # Left-to-right layout
 dot.attr('node', fontname='Helvetica')
 dot.attr('edge', fontname='Helvetica', fontsize='10')
 
@@ -40,4 +40,5 @@ dot.node('Delta',
 dot.edge('Perms_RBAC', 'Delta', label='RBAC-only privileges')
 dot.edge('Perms_ABAC', 'Delta', label='Revoked by ABAC', style='dashed', arrowhead='tee')
 
-dot.render('rbac_abac_diagram', format='png')
+dot.render('rbac_abac_diagram', format='pdf')
+dot.render('rbac_abac_diagram', format='svg')

@@ -13,7 +13,15 @@ with dot.subgraph(name='cluster_k8s') as c:
 
 # External components
 dot.node('PDP', label="AuthzForce PDP\n(XACML Policy Decision Point)")
-dot.node('SMT', label="SMT Solver\n(Verification Engine)")
+# Highlighted SMT Solver node
+dot.node(
+    'SMT',
+    label="SMT Solver\n(Verification Engine)",
+    shape='ellipse',
+    style='filled',
+    fillcolor='lightgoldenrod1'  # light yellow highlight
+)
+
 
 # Represent user/admin initiating requests
 dot.node('User', label="User/Admin\n(kubectl client)", shape='none')

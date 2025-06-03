@@ -38,7 +38,7 @@ logical.edge('PEP',    'PDP',   label="authz query")
 logical.edge('PDP',    'PEP',   label="decision")
 logical.edge('PEP',    'API',   label="allow / reject")
 
-logical.format = 'png'
+logical.format = 'pdf'
 logical.render('logical_view', cleanup=True)
 
 # ─────────────────────────────
@@ -72,5 +72,5 @@ physical.edge('Webhook',    'APIServer',   label="admission response")
 physical.edge('APIServer',  'Pod',         label="deploy workload", style="dashed")
 physical.edge('AdminPC',    'PDPService',  label="push verified policies")
 
-physical.format = 'png'
+physical.format = 'pdf'
 physical.render('physical_view', cleanup=True)

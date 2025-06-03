@@ -12,7 +12,7 @@ digraph framework_arch {
 	PDP [label="AuthzForce PDP
 (XACML Policy Decision Point)"]
 	SMT [label="SMT Solver
-(Verification Engine)"]
+(Verification Engine)" fillcolor=lightgoldenrod1 shape=ellipse style=filled]
 	User [label="User/Admin
 (kubectl client)" shape=none]
 	RBACpol [label="RBAC Policy (YAML)" shape=note]
